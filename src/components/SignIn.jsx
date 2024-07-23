@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { toast } from "react-toastify";
+
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,9 +38,9 @@ const SignIn = () => {
         <div className="max-w-md mx-auto my-10 border-solid border-2 border-sky-500 rounded-lg">
           <div className="text-center">
             <h1 className="my-3 text-3xl font-semibold text-gray-700 dark:text-gray-200">
-              Sign In
+              Welcome to Invoice Management App
             </h1>
-            <p className="text-gray-500 dark:text-gray-400">
+            <p className="text-gray-500 dark:text-gray-400 text-xl">
               Sign in to access your account
             </p>
             {invalidCredential ? (
