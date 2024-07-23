@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
-
+import { toast } from "react-toastify";
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [invalidCredential, setInvalidCredential] = useState(false);
 
   const navigate = useNavigate();
 
@@ -22,7 +23,11 @@ const SignIn = () => {
 
       navigate("/");
     } catch (error) {
-      console.error("Error signing in:", error);
+      console.error("Error signing in:", error.code);
+      if (error.code === "auth/invalid-credential") {
+        setInvalidCredential(true);
+        toast.error("User not found");
+      }
     }
   };
 
@@ -37,8 +42,15 @@ const SignIn = () => {
             <p className="text-gray-500 dark:text-gray-400">
               Sign in to access your account
             </p>
+            {invalidCredential ? (
+              <span className="text-red-400 mt-4 text-xl">
+                Invalid Credential
+              </span>
+            ) : (
+              ""
+            )}
           </div>
-          <div className="m-7 ">
+          <div className="m-7">
             <form action="">
               <div className="mb-6">
                 <label className="block mb-2 text-sm text-gray-600 dark:text-gray-400">

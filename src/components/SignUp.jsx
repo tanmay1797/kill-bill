@@ -9,6 +9,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [username, setuserName] = useState("");
+  const [userAlreadyPresent, setUserAlreadyPresent] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -40,9 +41,11 @@ const SignUp = () => {
 
           console.log(user);
         })
-
         .catch((error) => {
           console.error("Error signing up:", error);
+          if (error.code === "auth/email-already-in-use") {
+            setUserAlreadyPresent(true);
+          }
         });
     }
   };
@@ -70,6 +73,13 @@ const SignUp = () => {
         <h2 className="my-3 text-3xl font-semibold text-gray-700 dark:text-gray-200 text-center">
           Sign Up
         </h2>
+        {userAlreadyPresent ? (
+          <span className="text-red-400 mt-4 text-xl">
+            User Already Present
+          </span>
+        ) : (
+          ""
+        )}
 
         <div className="mb-4">
           <label
