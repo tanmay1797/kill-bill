@@ -139,18 +139,12 @@ const InvoiceForm = () => {
             />
           </div>
         </div>
-        <button
-          type="button"
-          // onClick={addItem}
-          className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300 mb-4"
-        >
-          Add Item
-        </button>
+
         <button
           type="submit"
           className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition duration-300"
         >
-          Generate Invoice
+          Add Invoice
         </button>
       </form>
     </div>

@@ -1,10 +1,11 @@
 import React, { useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
+import { useNavigate } from "react-router-dom";
 
 function InvoiceDetail() {
   const location = useLocation();
-
+  const navigate = useNavigate();
   const componentRef = useRef();
 
   const handlePrint = useReactToPrint({
@@ -30,7 +31,7 @@ function InvoiceDetail() {
     clientPhone
   );
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gray-100 p-6">
       <div
         ref={componentRef}
         className="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full"
@@ -63,12 +64,20 @@ function InvoiceDetail() {
           <p className="text-gray-700">Client Phone: {clientPhone}</p>
         </div>
       </div>
-      <button
-        onClick={handlePrint}
-        className="mt-6 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
-      >
-        Print Product Details
-      </button>
+      <div className="flex gap-4">
+        <button
+          onClick={() => navigate("/invoice-list")}
+          className="mt-6 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
+        >
+          Go Back
+        </button>
+        <button
+          onClick={handlePrint}
+          className="mt-6 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
+        >
+          Print Product Details
+        </button>
+      </div>
     </div>
   );
 }

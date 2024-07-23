@@ -1,6 +1,7 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
+import avatar from "../assets/avatar.png";
 
 const UserProfile = () => {
   const [userName, setUserName] = useState([]);
@@ -58,9 +59,12 @@ const UserProfile = () => {
   return (
     <div className="flex justify-center items-center h-screen w-[100%] bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-6 md:p-12 max-w-3xl w-full">
+        <div className="font-bold w-full text-center text-2xl text-gray-700 p-2">
+          Profile Details
+        </div>
         <div className="flex items-center space-x-4 mb-6">
           <img
-            // src={user.avatar}
+            src={avatar}
             alt="User Avatar"
             className="w-24 h-24 rounded-full border-2 border-gray-300"
           />
@@ -72,9 +76,15 @@ const UserProfile = () => {
         <div className="mb-6">
           <h3 className="text-lg font-semibold mb-2">Contact Information</h3>
           <ul className="text-gray-700">
-            <li>Email: {userEmail}</li>
-            <li>Phone: XXXXXXXXXX</li>
-            <li>Location: India</li>
+            <li>
+              <span className="font-bold">Email:</span> {userEmail}
+            </li>
+            <li>
+              <span className="font-bold">Phone:</span> XXXXXXXXXX
+            </li>
+            <li>
+              <span className="font-bold">Location:</span> India
+            </li>
           </ul>
         </div>
         <div className="mb-6">

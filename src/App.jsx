@@ -10,17 +10,20 @@ import {
   createBrowserRouter,
   RouterProvider,
   Outlet,
-  Navigate,
+  // Navigate,
 } from "react-router-dom";
 import InvoiceDetail from "./Pages/InvoiceDetail";
 import Header from "./components/Header";
 import Profile from "./Pages/Profile";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
+import ProtectedRoute from "./ProtectedRoute";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const Layout = () => {
   return (
-    <div className="flex">
+    <div className="flex flex-col md:flex-row min-h-screen">
       <Header />
       <Outlet />
       {/* <Footer /> */}
@@ -28,45 +31,13 @@ const Layout = () => {
   );
 };
 
-// const router = createBrowserRouter([
-//   // { path: "/sign-in", element: <SignIn /> },
-
-//   {
-//     path: "/",
-//     element: <Layout />,
-//     children: [
-//       {
-//         path: "/profile",
-//         element: <Profile />,
-//       },
-//       { path: "/", element: <Home /> },
-//       { path: "/new-invoice", element: <NewInvoice /> },
-//       { path: "/invoice", element: <Invoice /> },
-//       {
-//         path: "/invoice-list",
-//         element: <InvoiceList />,
-//       },
-//       {
-//         path: "invoice/:id",
-//         element: <InvoiceDetail />,
-//       },
-//     ],
-//   },
-//   { path: "/sign-in", element: <SignIn /> },
-//   { path: "/sign-up", element: <SignUp /> },
-// ]);
-
-const isAuthenticated = () => {
-  return localStorage.getItem("uid") !== null;
-};
-
 const router = createBrowserRouter([
   {
     path: "/",
-    element: isAuthenticated() ? (
-      <Layout />
-    ) : (
-      <Navigate to="/sign-in" replace />
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
     ),
     children: [
       { path: "profile", element: <Profile /> },
@@ -81,12 +52,8 @@ const router = createBrowserRouter([
   { path: "/sign-up", element: <SignUp /> },
 ]);
 
-function App() {
-  return (
-    <div>
-      <RouterProvider router={router} />
-    </div>
-  );
-}
+const App = () => {
+  return <RouterProvider router={router} />;
+};
 
 export default App;

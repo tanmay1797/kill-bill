@@ -2,9 +2,7 @@ import { useState } from "react";
 import { auth, db } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { InvoiceContext } from "../Context/context";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -39,41 +37,64 @@ const SignUp = () => {
           navigate("/");
           localStorage.setItem("uid", user.uid);
           localStorage.setItem("username", username);
+
           console.log(user);
         })
 
         .catch((error) => {
-          // const errorCode = error.code;
-          // const errorMessage = error.message;
-          // ..
-          console.log(error);
+          console.error("Error signing up:", error);
         });
     }
   };
 
+  // const handleSignUp = async () => {
+  //   try {
+  //     const userCredential = await createUserWithEmailAndPassword(
+  //       auth,
+  //       email,
+  //       password
+  //     );
+  //     localStorage.setItem("uid", userCredential.user.uid);
+  //     navigate("/");
+  //   } catch (error) {
+  //     console.error("Error signing up:", error);
+  //   }
+  // };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-indigo-500">
+    <div className="min-h-screen flex items-center justify-center bg-gray-800 ">
       <form
-        className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm"
+        className="bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-sm border-solid border-2 border-sky-500"
         onSubmit={handleSubmit}
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+        <h2 className="my-3 text-3xl font-semibold text-gray-700 dark:text-gray-200 text-center">
+          Sign Up
+        </h2>
 
         <div className="mb-4">
-          <label htmlFor="username" className="block text-gray-700">
+          <label
+            htmlFor="username"
+            // className="text-gray-500 dark:text-gray-400"
+            className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+          >
             Username:
           </label>
           <input
             type="text"
             id="username"
             value={username}
-            onChange={(e, username) => setuserName(e.target.value)}
+            onChange={(e) => setuserName(e.target.value)}
             required
-            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            placeholder="username"
+            // className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700">
+          <label
+            htmlFor="email"
+            className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+          >
             Email:
           </label>
           <input
@@ -82,11 +103,16 @@ const SignUp = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            placeholder="email"
+            // className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-700">
+          <label
+            htmlFor="password"
+            className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+          >
             Password:
           </label>
           <input
@@ -95,11 +121,16 @@ const SignUp = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            placeholder="password"
+            // className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
           />
         </div>
         <div className="mb-6">
-          <label htmlFor="confirmPassword" className="block text-gray-700">
+          <label
+            htmlFor="confirmPassword"
+            className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+          >
             Confirm Password:
           </label>
           <input
@@ -108,7 +139,9 @@ const SignUp = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            placeholder="confirm your password"
+            // className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
           />
         </div>
         <button
@@ -127,7 +160,6 @@ const SignUp = () => {
               Sign in
             </div>
           </Link>
-          .
         </p>
       </form>
     </div>

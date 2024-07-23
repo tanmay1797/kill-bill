@@ -10,36 +10,35 @@ const SignIn = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        navigate("/");
-        localStorage.setItem("uid", user.uid);
-        localStorage.setItem("username", user.displayName);
-        // ...
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const handleSubmit = async () => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      localStorage.setItem("uid", userCredential.user.uid);
+      localStorage.setItem("username", userCredential.user.displayName);
+
+      navigate("/");
+    } catch (error) {
+      console.error("Error signing in:", error);
+    }
   };
 
   return (
-    <div className="flex items-center min-h-screen bg-white dark:bg-gray-900">
+    <div className="flex items-center min-h-screen bg-white dark:bg-gray-800 ">
       <div className="container mx-auto">
-        <div className="max-w-md mx-auto my-10">
+        <div className="max-w-md mx-auto my-10 border-solid border-2 border-sky-500 rounded-lg">
           <div className="text-center">
             <h1 className="my-3 text-3xl font-semibold text-gray-700 dark:text-gray-200">
-              Sign in
+              Sign In
             </h1>
             <p className="text-gray-500 dark:text-gray-400">
               Sign in to access your account
             </p>
           </div>
-          <div className="m-7">
+          <div className="m-7 ">
             <form action="">
               <div className="mb-6">
                 <label className="block mb-2 text-sm text-gray-600 dark:text-gray-400">
@@ -60,12 +59,6 @@ const SignIn = () => {
                   <label className="text-sm text-gray-600 dark:text-gray-400">
                     Password
                   </label>
-                  <a
-                    href="#!"
-                    className="text-sm text-gray-400 focus:outline-none focus:text-indigo-500 hover:text-indigo-500 dark:hover:text-indigo-300"
-                  >
-                    Forgot password?
-                  </a>
                 </div>
                 <input
                   onChange={(e) => setPassword(e.target.value)}
@@ -83,7 +76,7 @@ const SignIn = () => {
                   type="button"
                   className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none"
                 >
-                  Sign in
+                  Sign In
                 </button>
               </div>
               <div className="text-sm text-center text-gray-400">
@@ -96,7 +89,6 @@ const SignIn = () => {
                     Sign up
                   </div>
                 </Link>
-                .
               </div>
             </form>
           </div>
